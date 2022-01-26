@@ -366,8 +366,32 @@ def moviecol_add():
 @home.route('/animation/')
 def animation():
     data = Preview.query.all()
-
     return render_template('home/animation.html',data=data)
+    # if page == None:
+    page = 1
+    page_data = Movie.query.all()
+
+    user_id = session['user_id']
+    if not user_id:
+        page_data0 = Preview.query.all()
+        return render_template('home/animation.html',data=page_data0)
+    uu = str(user_id % 10)
+
+    rating_file = 'ratings.dat'
+    itemCF = ItemBasedCF()
+    itemCF.get_dataset(rating_file)
+    itemCF.calc_movie_sim()
+    items = itemCF.recommend(uu)
+    page_data0 = []
+    ss = set()
+    for id, score in items:
+        id0 = (int(id) % 10+random.randint(0, 9))%10
+        while id0 in ss:
+            id0 = (int(id) % 10+random.randint(0, 9))%10
+        ss.add(id0)
+        page_data0.append(page_data[id0])
+    print('page_data0', page_data0)
+    return render_template('home/animation.html',data=page_data0)
 
 
 # 搜索页面

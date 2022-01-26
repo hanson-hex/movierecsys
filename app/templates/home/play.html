@@ -64,15 +64,15 @@
                             </td>
                             <td>{{ movie.length }}</td>
                         </tr>
-                        <tr>
+                        /* <tr>
                             <td style="color:#ccc;font-weight:bold;font-style:italic;">
                                 <span class="glyphicon glyphicon-map-marker"></span>&nbsp;地区
                             </td>
                             <td>{{ movie.area }}</td>
-                        </tr>
+                        </tr> */
                         <tr>
                             <td style="color:#ccc;font-weight:bold;font-style:italic;">
-                                <span class="glyphicon glyphicon-star"></span>&nbsp;星级
+                                <span class="glyphicon glyphicon-star"></span>&nbsp;评分
                             </td>
                             <td>
                                 <div>
@@ -164,6 +164,8 @@
                                             width: 1126px;
                                         }
                                     </style>
+                                    <label for="score">{{ form.star.label }}</label>
+                                    {{ form.star }}
                                     <label for="comment">{{ form.content.label }}</label><br>
                                     {# 原版(带表情的): <label for="input_content">{{ form.content.label }}</label><br>#}
                                     {{ form.content }}
@@ -177,7 +179,7 @@
                             </div>
                             {{ form.submit }}
                             {{ form.csrf_token }}
-                            <a onclick="" class="btn btn-danger" id="btn-col"><span class="glyphicon glyphicon-heart"></span>&nbsp;收藏视频</a>
+                            <!-- <a onclick="" class="btn btn-danger" id="btn-col"><span class="glyphicon glyphicon-heart"></span>&nbsp;收藏视频</a> -->
                         </form>
                         <div class="col-md-12">
                             <font style="color:green" id="show_col_msg"></font>

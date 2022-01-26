@@ -242,6 +242,18 @@ class CommentForm(FlaskForm):
             'rows': 5
         }
     )
+    star = SelectField(
+        label="评分",
+  validators=[
+            DataRequired('请选择评分!')
+        ],
+        coerce=int,
+        choices=[(1, '1星'), (2, '2星'), (3, '3星'), (4, '4星'), (5, '5星')],
+        description='评分',
+        render_kw={
+            'class': 'form-control',
+        }
+    )
     submit = SubmitField(
         '提交评论',
         render_kw={

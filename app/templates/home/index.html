@@ -35,7 +35,7 @@
                                 {% endfor %}
                         </tr>
                         <tr>
-                            <td style="width:10%;color: #3c6de0;font-weight: bold">&nbsp;&nbsp;&nbsp;&nbsp;视频星级</td>
+                            <td style="width:10%;color: #3c6de0;font-weight: bold">&nbsp;&nbsp;&nbsp;&nbsp;视频评分</td>
                             <td>
                                 {% for v in range(1,6) %}
                                     <a href="{{ url_for('home.index',page=1) }}?tid={{ p['tid'] }}&star={{ v }}&time={{ p['time'] }}&pm={{ p['pm'] }}&cm={{ p['cm'] }}"

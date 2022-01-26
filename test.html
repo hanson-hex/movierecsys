@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	 <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<title>Document</title>
+</head>
+<body>
+		<div id="google-sign-in">							
+								</div>
+								<div id="divider">
+									Or
+								</div>
+</body>
+</html>
+<script  >
+function handleCredentialResponse({
+	credential
+})	{
+	let strings = credential.split(".");
+	var userInfo = JSON.parse(decodeURIComponent(escape(window.atob(strings[1].replace(/-/g, "+").replace(/_/g, "/")))))
+	console.log(userInfo)
+}
+function createGoogleScript (src) {
+	 var def = $.Deferred();
+	var _global = window;
+		if (_global.google) {
+			def.resolve(_global.google)
+		} else {
+			var script = document.createElement("script")
+			script.scr = src
+			script.type = "text/javascript"
+			script.onload = () => {
+			if (_global.google) {
+			   def.resolve(_global.google)
+			} else {
+				def.reject(new Error("window.google is null or undefined"))
+			}
+		   }
+		}
+	return def;
+}
+	
+function initGoogleButon(res) {
+	console.log('rsll', res)
+	console.log("#google-sign-in", $("#google-sign-in")[0])
+	var initOptions = {
+		client_id: "707945630279-ikis926pdel1ete9843dvim14efi42po.apps.googleusercontent.com",
+		callback: handleCredentialResponse
+	}
+	window.google.accounts.id.initialize(initOptions)
+	var buttonOptions = {
+		theme: "outline",
+		size: "large",
+		width: 350,
+		logo_alignment: "center",
+		shape: "pill",
+		text: "signin_with",
+		locale: "en"
+	}
+	window.google.accounts.id.renderButton(
+		$("#google-sign-in")[0], buttonOptions
+	)
+}	
+
+createGoogleScript("https://accounts.google.com/gsi/client").then(initGoogleButon)
+	
+</script>
