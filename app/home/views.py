@@ -7,7 +7,7 @@ import random
 from . import home
 from flask import render_template, url_for, redirect, flash, session, request
 from app.home.forms import RegistForm, LoginForm, UserdetailForm, PwdForm,CommentForm
-from app.models import User, Userlog, Comment, Movie,Preview,Tag,Moviecol
+from app.models import User, Userlog, Comment, Movie,Preview,Tag,Moviecol, Grade
 from app import db, app
 import uuid  # 添加唯一标志符
 from werkzeug.security import generate_password_hash
@@ -322,7 +322,7 @@ def movierecommend(page=None):
     itemCF = ItemBasedCF()
     itemCF.get_dataset(rating_file)
     itemCF.calc_movie_sim()
-    items = itemCF. recommend(uu)
+    items = itemCF.recommend(uu)
     page_data0 = []
     ss = set()
     for id, score in items:
@@ -332,6 +332,41 @@ def movierecommend(page=None):
         ss.add(id0)
         page_data0.append(page_data[id0])
     return render_template('home/movierecommend.html',page_data=page_data0)
+
+#添加电影收藏(AJAX异步方法)
+@home.route('/grade/',methods=['GET', "POST"])
+@user_login_req
+def moviecol_add():
+    #接受uid用户ID和mid电影ID
+    uid = request.args.get("uid","")
+    mid = request.args.get("mid","")
+    star = request.args.get('star', "")
+    if request.method == 'GET':
+        grade = Grade.query.filter_by(
+        # user_id = int(uid),
+        # movie_id = int(mid)
+        movie_id = mid,
+        user_id = uid
+    ).count()
+        if grade == 1:  #如果该用户已经收藏了该电影
+            data = dict(grade=grade.star)
+        else:
+            data = dict(grade=0)
+        return json.dumps(data)
+    elif request.methos == "POST":
+        grade = Grade(
+            movie_id=mid,
+            user_id=uid,
+            star=star
+        )
+        db.session.add(grade)
+        db.session.commit()
+        data = dict(ok=1)
+    import json
+    return json.dumps(data) #浏览器返回一个json:{"ok": 1}
+    # return json.dumps(dict(ok=1))
+
+
 
 #添加电影收藏(AJAX异步方法)
 @home.route('/moviecol/add/',methods=['GET'])
@@ -420,6 +455,7 @@ def search(page=None):
 def play(id=None,page=None):
     form = CommentForm()
     movie = Movie.query.get_or_404(id)
+    grade = Grade.query.get_or_404(session['user_id'])
     movie.playnum = movie.playnum + 1 #点开一次,播放数+1
     tag = Tag.query.filter_by(id=movie.tag_id).first()
     #获取评论列表
@@ -453,6 +489,6 @@ def play(id=None,page=None):
     db.session.add(movie)
     db.session.commit()
 
-    return render_template('home/play.html',movie=movie,tag=tag,form=form,page_data=page_data)
+    return render_template('home/play.html',movie=movie, grade=grade, tag=tag,form=form,page_data=page_data)
 
 # 404页面 (去蓝图__init__.py中定义,而不是在这个视图中)

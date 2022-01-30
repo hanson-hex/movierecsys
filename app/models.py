@@ -99,7 +99,6 @@ class Comment(db.Model):
     __tablename__ = 'comment'
     id = db.Column(db.Integer, primary_key=True)  # 编号
     content = db.Column(db.Text)  # 评论内容
-    star = db.Column(db.SmallInteger)  # 星级
     movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'))  # 所属电影
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # 所属用户
     addtime = db.Column(db.DateTime, index=True, default=datetime.now)  # 评论时间
@@ -144,6 +143,17 @@ class Role(db.Model):
 
     def __repr__(self):
         return '<Role %r>' % self.name
+
+class Grade(db.Model):
+    __tablename__ = 'grade'
+    id = db.Column(db.Integer, primary_key=True)  # 编号
+    star = db.Column(db.SmallInteger)  # 星级
+    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'))  # 所属电影
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # 所属用户
+
+
+    def __repr__(self):
+        return '<Comment %r>' % self.id
 
 
 # 管理员创建

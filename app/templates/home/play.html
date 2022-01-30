@@ -156,6 +156,21 @@
                                 {{ msg }}
                             </div>
                         {% endfor %}
+                        <tr>
+                        <td>
+                        <a class="label label-warning" id="1star">
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;1星</a>
+                        <a class="label label-warning" id="2star">
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;2星</a>
+                        <a class="label label-warning" id="3star">
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;3星</a>
+                        <a class="label label-warning" id="4star">
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;4星</a>
+                        <a class="label label-warning" id="5star">
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;5星</a>
+                        </td>
+                        </tr>
+                        
                         <form role="form" style="margin-bottom:6px;"  method="post">
                             <div class="form-group">
                                 <div>
@@ -164,14 +179,12 @@
                                             width: 1126px;
                                         }
                                     </style>
-                                    <label for="score">{{ form.star.label }}</label>
-                                    {{ form.star }}
                                     <label for="comment">{{ form.content.label }}</label><br>
                                     {# 原版(带表情的): <label for="input_content">{{ form.content.label }}</label><br>#}
                                     {{ form.content }}
                                 </div>
                                 {% for err in form.content.errors %}
-                                    <div class="col-md-12">
+                                    <div class="col-md-12"
                                         <font style="color:red">{{ err }}</font>
                                     </div>
                                 {% endfor %}
@@ -179,7 +192,7 @@
                             </div>
                             {{ form.submit }}
                             {{ form.csrf_token }}
-                            <!-- <a onclick="" class="btn btn-danger" id="btn-col"><span class="glyphicon glyphicon-heart"></span>&nbsp;收藏视频</a> -->
+                            <a onclick="" class="btn btn-danger" id="btn-col"><span class="glyphicon glyphicon-heart"></span>&nbsp;收藏视频</a>
                         </form>
                         <div class="col-md-12">
                             <font style="color:green" id="show_col_msg"></font>
@@ -308,6 +321,50 @@
     <!--播放页面-->
     {# AJAX获取视频ID和用户ID #}
     <script>
+         $(document).ready(function(){
+            var mid = {{ movie.id }};
+            var uid = {{ session['user_id'] }};
+                $.ajax({
+                    url:"{{ url_for('home.moviecol_add') }}",
+                    type:"GET",
+                    data:"mid=" + mid + "&uid=" + uid,
+                    dataType:"json",
+                    success:function(res){
+                        if(res.ok == 1) {
+                            $("#show_col_msg").empty();
+                            $("#show_col_msg").append("收藏视频成功!");
+                            alert("收藏视频成功!");
+                        }else{
+                            $("#show_col_msg").empty();
+                            $("#show_col_msg").append("您已收藏此视频哦!");
+                            alert("您已收藏此视频哦!");
+                        }
+                    }
+                })  
+         })
+            $("#btn-col").click(function(){
+                var mid = {{ movie.id }};
+                var uid = {{ session['user_id'] }};
+                {#var msg = $("#show_col_msg");#}
+                $.ajax({
+                    url:"{{ url_for('home.moviecol_add') }}",
+                    type:"GET",
+                    data:"mid=" + mid + "&uid=" + uid,
+                    dataType:"json",
+                    success:function(res){
+                        if(res.ok == 1) {
+                            $("#show_col_msg").empty();
+                            $("#show_col_msg").append("收藏视频成功!");
+                            alert("收藏视频成功!");
+                        }else{
+                            $("#show_col_msg").empty();
+                            $("#show_col_msg").append("您已收藏此视频哦!");
+                            alert("您已收藏此视频哦!");
+                        }
+                    }
+                })
+            });
+
         {#$(document).ready(function(){#}
             $("#btn-col").click(function(){
                 var mid = {{ movie.id }};
