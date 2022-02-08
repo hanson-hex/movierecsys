@@ -202,24 +202,24 @@ class MovieForm(FlaskForm):
 class PreviewForm(FlaskForm):
     '''电影预告管理表单'''
     title = StringField(
-        label='预告标题',
+        label='轮播图标题',
         validators=[
-            DataRequired('请输入预告标题!')
+            DataRequired('请输入轮播图标题!')
         ],
-        description='预告标题',
+        description='轮播图标题',
         render_kw={
             'class' :'form-control' ,
-            'placeholder':'请输入预告标题！',
+            'placeholder':'请输入轮播图标题！',
             'required':'required'
         }
     )
 
     logo = FileField(
-        label='预告封面',
+        label='轮播图封面',
         validators=[
-            DataRequired('请上传封面!')
+            DataRequired('请上传轮播图!')
         ],
-        description='预告封面'
+        description='轮播图封面'
     )
 
     submit = SubmitField(

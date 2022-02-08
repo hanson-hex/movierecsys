@@ -336,7 +336,7 @@ def movierecommend(page=None):
 #添加电影收藏(AJAX异步方法)
 @home.route('/grade/',methods=['GET', "POST"])
 @user_login_req
-def moviecol_add():
+def grade():
     #接受uid用户ID和mid电影ID
     uid = request.args.get("uid","")
     mid = request.args.get("mid","")
@@ -454,8 +454,15 @@ def search(page=None):
 @home.route('/play/<int:id>/<int:page>/',methods=['GET','POST'])
 def play(id=None,page=None):
     form = CommentForm()
+    print('1')
     movie = Movie.query.get_or_404(id)
-    grade = Grade.query.get_or_404(session['user_id'])
+    grade = 0
+    # if 'user' in session:
+    #     grade = Grade.query.get_or_404(session['user_id'])
+    #     print('grade1', grade)
+    # else:
+    #     grade = 0
+    #     print('grade2', grade)
     movie.playnum = movie.playnum + 1 #点开一次,播放数+1
     tag = Tag.query.filter_by(id=movie.tag_id).first()
     #获取评论列表
@@ -470,6 +477,7 @@ def play(id=None,page=None):
         Comment.addtime.desc()
     ).paginate(page=page,per_page=6)
     #提交评论
+    print('2')
     if 'user' in session and form.validate_on_submit():
         data = form.data
         comment = Comment(
@@ -488,7 +496,7 @@ def play(id=None,page=None):
     #修改movie
     db.session.add(movie)
     db.session.commit()
-
+    print('3')
     return render_template('home/play.html',movie=movie, grade=grade, tag=tag,form=form,page_data=page_data)
 
 # 404页面 (去蓝图__init__.py中定义,而不是在这个视图中)

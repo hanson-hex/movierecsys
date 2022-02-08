@@ -118,6 +118,61 @@
             </div>
         </div>
         <div class="col-md-12" style="margin-top:6px;">
+                    {# 评论前需登录 #}
+                    {% if 'user' in session %}
+                    <div class="panel panel-info">
+                    <tr>
+                        <td id="star-list">
+                        {% if grade == 1 %}
+                        <a class="label label-warning" id="1star">
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;1星
+                        </a>
+                        {% else %}
+                        <a class="label" id="1star">
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;1星
+                        </a>
+                        {% endif %}
+                        {% if grade == 2 %}
+                        <a class="label label-warning" id="2star">
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;2星
+                        </a>
+                        {% else %}
+                        <a class="label" id="2star">
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;2星
+                        </a>
+                        {% endif %}
+                        {% if grade == 3 %}
+                        <a class="label label-warning" id="3star">
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;3星
+                        </a>
+                        {% else %}
+                        <a class="label" id="3star">
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;3星
+                        </a>
+                        {% endif %}
+                        {% if grade == 4 %}
+                        <a class="label label-warning" id="4star">
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;4星
+                        </a>
+                        {% else %}
+                        <a class="label" id="4star">
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;4星
+                        </a>
+                        {% endif %}
+                        {% if grade == 5 %}
+                        <a class="label label-warning" id="5star">
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;5星
+                        </a>
+                        {% else %}
+                        <a class="label" id="5star">
+                        <span class="glyphicon glyphicon-star"></span>&nbsp;5星
+                        </a>
+                        {% endif %}
+                        </td>
+                    </tr>
+                        </div>
+                 
+                    {% endif %}
             <div class="panel panel-danger">
                 <div class="panel-heading">
                     <h3 class="panel-title"><span class="glyphicon glyphicon-comment"></span>&nbsp;视频评论</h3>
@@ -156,20 +211,6 @@
                                 {{ msg }}
                             </div>
                         {% endfor %}
-                        <tr>
-                        <td>
-                        <a class="label label-warning" id="1star">
-                        <span class="glyphicon glyphicon-star"></span>&nbsp;1星</a>
-                        <a class="label label-warning" id="2star">
-                        <span class="glyphicon glyphicon-star"></span>&nbsp;2星</a>
-                        <a class="label label-warning" id="3star">
-                        <span class="glyphicon glyphicon-star"></span>&nbsp;3星</a>
-                        <a class="label label-warning" id="4star">
-                        <span class="glyphicon glyphicon-star"></span>&nbsp;4星</a>
-                        <a class="label label-warning" id="5star">
-                        <span class="glyphicon glyphicon-star"></span>&nbsp;5星</a>
-                        </td>
-                        </tr>
                         
                         <form role="form" style="margin-bottom:6px;"  method="post">
                             <div class="form-group">
@@ -366,27 +407,28 @@
             });
 
         {#$(document).ready(function(){#}
-            $("#btn-col").click(function(){
+            $("#star-list").click(function(e){
                 var mid = {{ movie.id }};
                 var uid = {{ session['user_id'] }};
                 {#var msg = $("#show_col_msg");#}
-                $.ajax({
-                    url:"{{ url_for('home.moviecol_add') }}",
-                    type:"GET",
-                    data:"mid=" + mid + "&uid=" + uid,
-                    dataType:"json",
-                    success:function(res){
-                        if(res.ok == 1) {
-                            $("#show_col_msg").empty();
-                            $("#show_col_msg").append("收藏视频成功!");
-                            alert("收藏视频成功!");
-                        }else{
-                            $("#show_col_msg").empty();
-                            $("#show_col_msg").append("您已收藏此视频哦!");
-                            alert("您已收藏此视频哦!");
-                        }
-                    }
-                })
+                console.log('e', e)
+                // $.ajax({
+                //     url:"{{ url_for('home.grade') }}",
+                //     type:"post",
+                //     data:"mid=" + mid + "&uid=" + uid,
+                //     dataType:"json",
+                //     success:function(res){
+                //         if(res.ok == 1) {
+                //             $("#show_col_msg").empty();
+                //             $("#show_col_msg").append("评分成功!");
+                //             alert("收藏视频成功!");
+                //         }else{
+                //             $("#show_col_msg").empty();
+                //             $("#show_col_msg").append("您已收藏此视频哦!");
+                //             alert("您已收藏此视频哦!");
+                //         }
+                //     }
+                // })
             });
 
     </script>
