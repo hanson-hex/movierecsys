@@ -120,16 +120,14 @@
         <div class="col-md-12" style="margin-top:6px;">
                     {# 评论前需登录 #}
                     {% if 'user' in session %}
-                    <div class="panel panel-info">
-                    <tr>
-                        <td id="star-list">
+                    <div class="panel panel-info" style="background-color: #5cb85c" id="star-list"> 
                         {% if grade == 1 %}
                         <a class="label label-warning" id="1star">
                         <span class="glyphicon glyphicon-star"></span>&nbsp;1星
                         </a>
                         {% else %}
                         <a class="label" id="1star">
-                        <span class="glyphicon glyphicon-star"></span>&nbsp;1星
+                        <span class="glyphicon glyphicon-star-empty"></span>&nbsp;1星
                         </a>
                         {% endif %}
                         {% if grade == 2 %}
@@ -138,7 +136,7 @@
                         </a>
                         {% else %}
                         <a class="label" id="2star">
-                        <span class="glyphicon glyphicon-star"></span>&nbsp;2星
+                        <span class="glyphicon glyphicon-star-empty"></span>&nbsp;2星
                         </a>
                         {% endif %}
                         {% if grade == 3 %}
@@ -147,7 +145,7 @@
                         </a>
                         {% else %}
                         <a class="label" id="3star">
-                        <span class="glyphicon glyphicon-star"></span>&nbsp;3星
+                        <span class="glyphicon glyphicon-star-empty"></span>&nbsp;3星
                         </a>
                         {% endif %}
                         {% if grade == 4 %}
@@ -156,7 +154,7 @@
                         </a>
                         {% else %}
                         <a class="label" id="4star">
-                        <span class="glyphicon glyphicon-star"></span>&nbsp;4星
+                        <span class="glyphicon glyphicon-star-empty"></span>&nbsp;4星
                         </a>
                         {% endif %}
                         {% if grade == 5 %}
@@ -165,11 +163,9 @@
                         </a>
                         {% else %}
                         <a class="label" id="5star">
-                        <span class="glyphicon glyphicon-star"></span>&nbsp;5星
+                        <span class="glyphicon glyphicon-star-empty"></span>&nbsp;5星
                         </a>
                         {% endif %}
-                        </td>
-                    </tr>
                         </div>
                  
                     {% endif %}
@@ -412,23 +408,23 @@
                 var uid = {{ session['user_id'] }};
                 {#var msg = $("#show_col_msg");#}
                 console.log('e', e)
-                // $.ajax({
-                //     url:"{{ url_for('home.grade') }}",
-                //     type:"post",
-                //     data:"mid=" + mid + "&uid=" + uid,
-                //     dataType:"json",
-                //     success:function(res){
-                //         if(res.ok == 1) {
-                //             $("#show_col_msg").empty();
-                //             $("#show_col_msg").append("评分成功!");
-                //             alert("收藏视频成功!");
-                //         }else{
-                //             $("#show_col_msg").empty();
-                //             $("#show_col_msg").append("您已收藏此视频哦!");
-                //             alert("您已收藏此视频哦!");
-                //         }
-                //     }
-                // })
+                var starReg = /[1-5]/g;
+                var star = e.tartget.match(starReg)[0]
+                $.ajax({
+                    url:"{{ url_for('home.grade') }}",
+                    type:"post",
+                    data:"mid=" + mid + "&uid=" + uid + "&star=" + star,
+                    dataType:"json",
+                    success:function(res){
+                        if(res.ok == 1) {
+                            $("#" + star + "star").toggleClass("glyphicon-star-empty");
+                            $("#" + star + "star").toggleClass("glyphicon-star");
+                            $("#show_col_msg").empty();
+                            $("#show_col_msg").append("评分成功!");
+                            alert("评分成功!");
+                        }
+                    }
+                })
             });
 
     </script>
