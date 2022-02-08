@@ -83,6 +83,24 @@ CREATE TABLE `auth`  (
   INDEX `ix_auth_addtime`(`addtime`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
+
+ -- ----------------------------
+-- Table structure for comment
+-- ----------------------------
+DROP TABLE IF EXISTS `grade`;
+CREATE TABLE `grade`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `movie_id` int(11) NULL DEFAULT NULL,
+  `user_id` int(11) NULL DEFAULT NULL,
+   `star` smallint(6) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `movie_id`(`movie_id`) USING BTREE,
+  INDEX `user_id`(`user_id`) USING BTREE,
+  CONSTRAINT `grade_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `grade_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+
 -- ----------------------------
 -- Table structure for comment
 -- ----------------------------
@@ -92,6 +110,7 @@ CREATE TABLE `comment`  (
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
   `movie_id` int(11) NULL DEFAULT NULL,
   `user_id` int(11) NULL DEFAULT NULL,
+   `star` smallint(6) NULL DEFAULT NULL,
   `addtime` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `movie_id`(`movie_id`) USING BTREE,

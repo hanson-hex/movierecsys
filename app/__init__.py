@@ -31,4 +31,5 @@ app.register_blueprint(admin_blueprint, url_prefix='/admin')
 # 404页面
 @app.errorhandler(404)
 def page_not_found(error):
+    print('error', error)
     return render_template('home/404.html'), 404
