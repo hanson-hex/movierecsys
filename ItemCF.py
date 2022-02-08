@@ -2,7 +2,6 @@
 
 # 基于项目的协同过滤推荐算法实现
 import random
-
 import math
 from operator import itemgetter
 
@@ -137,5 +136,5 @@ if __name__ == '__main__':
     itemCF = ItemBasedCF()
     itemCF.get_dataset(rating_file)
     itemCF.calc_movie_sim()
-    print(itemCF. recommend('2'))
+    print(itemCF.recommend('2'))
     # itemCF.evaluate()
