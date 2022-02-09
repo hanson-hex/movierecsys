@@ -338,9 +338,9 @@ def movierecommend(page=None):
 @user_login_req
 def grade():
     #接受uid用户ID和mid电影ID
-    uid = request.args.get("uid","")
-    mid = request.args.get("mid","")
-    star = request.args.get('star', "")
+    uid = request.values.get("uid","")
+    mid = request.values.get("mid","")
+    star = request.values.get('star', "")
     if request.method == 'GET':
         grade = Grade.query.filter_by(
         # user_id = int(uid),
@@ -353,11 +353,11 @@ def grade():
         else:
             data = dict(grade=0)
         return json.dumps(data)
-    elif request.methos == "POST":
+    if request.method == 'POST':
         grade = Grade(
             movie_id=mid,
             user_id=uid,
-            star=star
+            star=int(star)
         )
         db.session.add(grade)
         db.session.commit()
@@ -453,16 +453,18 @@ def search(page=None):
 # 电影详情页
 @home.route('/play/<int:id>/<int:page>/',methods=['GET','POST'])
 def play(id=None,page=None):
+    print("1")
     form = CommentForm()
     movie = Movie.query.get_or_404(id)
     grade = 0
+    print('1.5')
     if 'user' in session:
-        grade = Grade.query.get_or_404(session['user_id'])
-        print('grade1', grade)
-    else:
-        grade = 0
-        print('grade2', grade)
+        print('session', session)
+        grade = getattr(Grade.query.filter_by(user_id=session['user_id']).first(), 'star', 0)
+        print('grade', grade)
+    print('grade1', grade)
     movie.playnum = movie.playnum + 1 #点开一次,播放数+1
+    print("2")
     tag = Tag.query.filter_by(id=movie.tag_id).first()
     #获取评论列表
     if page == None:
@@ -494,6 +496,7 @@ def play(id=None,page=None):
     #修改movie
     db.session.add(movie)
     db.session.commit()
+    print("3")
     return render_template('home/play.html',movie=movie, grade=grade, tag=tag,form=form,page_data=page_data)
 
 # 404页面 (去蓝图__init__.py中定义,而不是在这个视图中)

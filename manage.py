@@ -9,5 +9,5 @@ from flask_script import Manager
 
 if __name__ == '__main__':
     # manage.run()
-    app.run()
-    # app.run(port=8080)
+    # app.run() 
+    app.run(port=8080)

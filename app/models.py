@@ -151,9 +151,8 @@ class Grade(db.Model):
     movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'))  # 所属电影
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # 所属用户
 
-
     def __repr__(self):
-        return '<Comment %r>' % self.id
+        return '<grade %r>' % self.id
 
 
 # 管理员创建

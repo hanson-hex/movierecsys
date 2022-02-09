@@ -120,50 +120,50 @@
         <div class="col-md-12" style="margin-top:6px;">
                     {# 评论前需登录 #}
                     {% if 'user' in session %}
-                    <div class="panel panel-info" style="background-color: #5cb85c" id="star-list"> 
+                    <div class="panel panel-info" style="background-color: #5cb85c;padding-bottom:2px" id="star-list"> 
                         {% if grade == 1 %}
-                        <a class="label label-warning" id="1star">
-                        <span class="glyphicon glyphicon-star"></span>&nbsp;1星
+                        <a class="label label-warning" class="glyphicon glyphicon-star" id="1star" >
+                        <span ></span>&nbsp;1星
                         </a>
                         {% else %}
-                        <a class="label" id="1star">
-                        <span class="glyphicon glyphicon-star-empty"></span>&nbsp;1星
+                        <a class="label" class="glyphicon glyphicon-star-empty" id="1star">
+                        <span ></span>&nbsp;1星
                         </a>
                         {% endif %}
                         {% if grade == 2 %}
-                        <a class="label label-warning" id="2star">
-                        <span class="glyphicon glyphicon-star"></span>&nbsp;2星
+                        <a class="label label-warning" class="glyphicon glyphicon-star" id="2star" >
+                        <span ></span>&nbsp;2星
                         </a>
                         {% else %}
-                        <a class="label" id="2star">
-                        <span class="glyphicon glyphicon-star-empty"></span>&nbsp;2星
+                        <a class="label" class="glyphicon glyphicon-star-empty" id="2star">
+                        <span ></span>&nbsp;2星
                         </a>
                         {% endif %}
                         {% if grade == 3 %}
-                        <a class="label label-warning" id="3star">
-                        <span class="glyphicon glyphicon-star"></span>&nbsp;3星
+                        <a class="label label-warning" class="glyphicon glyphicon-star" id="3star" >
+                        <span ></span>&nbsp;3星
                         </a>
                         {% else %}
-                        <a class="label" id="3star">
-                        <span class="glyphicon glyphicon-star-empty"></span>&nbsp;3星
+                        <a class="label" class="glyphicon glyphicon-star-empty" id="3star">
+                        <span ></span>&nbsp;3星
                         </a>
                         {% endif %}
                         {% if grade == 4 %}
-                        <a class="label label-warning" id="4star">
-                        <span class="glyphicon glyphicon-star"></span>&nbsp;4星
+                        <a class="label label-warning" class="glyphicon glyphicon-star" id="4star" >
+                        <span ></span>&nbsp;4星
                         </a>
                         {% else %}
-                        <a class="label" id="4star">
-                        <span class="glyphicon glyphicon-star-empty"></span>&nbsp;4星
+                        <a class="label" class="glyphicon glyphicon-star-empty" id="4star">
+                        <span ></span>&nbsp;4星
                         </a>
                         {% endif %}
                         {% if grade == 5 %}
-                        <a class="label label-warning" id="5star">
-                        <span class="glyphicon glyphicon-star"></span>&nbsp;5星
+                        <a class="label label-warning"  class="glyphicon glyphicon-star" id="5star">
+                        <span ></span>&nbsp;5星
                         </a>
                         {% else %}
-                        <a class="label" id="5star">
-                        <span class="glyphicon glyphicon-star-empty"></span>&nbsp;5星
+                        <a class="label" class="glyphicon glyphicon-star-empty" id="5star">
+                        <span ></span>&nbsp;5星
                         </a>
                         {% endif %}
                         </div>
@@ -409,7 +409,9 @@
                 {#var msg = $("#show_col_msg");#}
                 console.log('e', e)
                 var starReg = /[1-5]/g;
-                var star = e.tartget.match(starReg)[0]
+                console.log("e.targe.id", e.target.id)
+                console.log("star", e.target.id.match(starReg))
+                var star = (e.target.id.match(starReg))[0]
                 $.ajax({
                     url:"{{ url_for('home.grade') }}",
                     type:"post",
@@ -417,8 +419,8 @@
                     dataType:"json",
                     success:function(res){
                         if(res.ok == 1) {
-                            $("#" + star + "star").toggleClass("glyphicon-star-empty");
-                            $("#" + star + "star").toggleClass("glyphicon-star");
+                            $("a.label-warning").toggleClass("label-warning")
+                            $("#" + star + "star").toggleClass("label-warning");
                             $("#show_col_msg").empty();
                             $("#show_col_msg").append("评分成功!");
                             alert("评分成功!");
